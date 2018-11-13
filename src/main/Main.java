@@ -10,6 +10,7 @@ public class Main {
 
 		String username = "Admin";
 		String password = "1234";
+		String choice;
 
 		System.out.println("Welcome to Personal Budget Manager!");
 		System.out.println("USER: ");
@@ -31,7 +32,27 @@ public class Main {
 			System.out.println("PASSWORD: ");
 			passwordInput = scanner.nextLine();
 		}
-		
+
+		System.out.println("Hello, " + usernameInput + "!");
+		System.out.println("For new revenue press R.");
+		System.out.println("For new cost press C.");
+		System.out.println("To display a balance press B: ");
+
+		// Validating user input
+		do {
+			choice = scanner.nextLine().toLowerCase();
+			switch (choice) {
+			case "r":
+				break;
+			case "c":
+				break;
+			case "b":
+				break;
+			default:
+				System.out.println("Invalid choice! Please, press R, C or B, depending on your choice: ");
+			}
+		} while (choice != "r" || choice != "c" || choice != "b");
+
 	}
 
 }
