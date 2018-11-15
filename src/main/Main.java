@@ -46,7 +46,8 @@ public class Main {
 
 		System.out.println("For new revenue press R.");
 		System.out.println("For new cost press C.");
-		System.out.println("To display a balance press B: ");
+		System.out.println("To display a balance press B");
+		System.out.println("To exit the program press Q: ");
 
 		// Validating user input
 		do {
@@ -56,26 +57,28 @@ public class Main {
 				newRevenue();
 				break;
 			case "c":
-				// TODO
+				newCost();
 				break;
 			case "b":
-				// TODO
+				// TODO balance();
 				break;
+			case "q":
+				System.exit(0);
 			default:
 				System.out.println("Invalid choice! Please, press R, C or B, depending on your choice: ");
 			}
-		} while (choice != "r" || choice != "c" || choice != "b");
+		} while (choice != "r" || choice != "c" || choice != "b" || choice != "q");
 
 	}
 
 	public static void newRevenue() {
 
 		System.out.println("-------New Revenue-------");
-		System.out.println("[add date (dd.mm.yyyy)] $ [add value (0,00)]");
+		System.out.println("[add date (dd.mm.yyyy)] $ [add value (0.00)]");
 
 		String inputRevenue = scanner.nextLine();
 		String validRevenue = dataValidation(inputRevenue);
-		// TODO processData(validRevenue);
+		// TODO storeRevenueData(validRevenue);
 
 		System.out.println("To add another revenue press A.");
 		System.out.println("To go back to start menu press M: ");
@@ -97,10 +100,39 @@ public class Main {
 
 	}
 
+	public static void newCost() {
+
+		System.out.println("-------New Cost-------");
+		System.out.println("[add date (dd.mm.yyyy)] $ [add value (0.00)]");
+
+		String inputCost = scanner.nextLine();
+		String validCost = dataValidation(inputCost);
+		// TODO storeCostData(validCost);
+
+		System.out.println("To add another cost press A.");
+		System.out.println("To go back to start menu press M: ");
+
+		// Validating user input
+		do {
+			choice = scanner.nextLine().toLowerCase();
+			switch (choice) {
+			case "a":
+				newCost();
+				break;
+			case "m":
+				startMenu();
+				break;
+			default:
+				System.out.println("Invalid choice! Please, press A or M, depending on your choice: ");
+			}
+		} while (choice != "a" || choice != "m");
+
+	}
+
 	public static String dataValidation(String data) {
 
 		// Setting date and value format
-		String regex = "^(\\d{2}\\.\\d{2}\\.\\d{4})(\\s\\$\\s)(\\d{1,}\\,\\d{2})$";
+		String regex = "^(\\d{2}\\.\\d{2}\\.\\d{4})(\\s\\$\\s)(\\d{1,}\\.\\d{2})$";
 		boolean isMatching = Pattern.matches(regex, data);
 
 		// Date and value validation
