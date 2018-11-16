@@ -7,8 +7,14 @@ public class Main {
 
 	public static Scanner scanner = new Scanner(System.in);
 	public static String choice;
-	public static StringBuilder dateBuilder = new StringBuilder();
-	public static StringBuilder valueBuilder = new StringBuilder();
+	public static StringBuilder revenueDateBuilder = new StringBuilder();
+	public static StringBuilder revenueValueBuilder = new StringBuilder();
+	public static StringBuilder costDateBuilder = new StringBuilder();
+	public static StringBuilder costValueBuilder = new StringBuilder();
+	public static String[] revenueDates;
+	public static String[] revenueValues;
+	public static String[] costDates;
+	public static String[] costValues;
 
 	public static void main(String[] args) {
 
@@ -78,7 +84,7 @@ public class Main {
 
 		String inputRevenue = scanner.nextLine();
 		String validRevenue = dataValidation(inputRevenue);
-		// TODO storeRevenueData(validRevenue);
+		storeRevenueData(validRevenue);
 
 		System.out.println("To add another revenue press A.");
 		System.out.println("To go back to start menu press M: ");
@@ -107,7 +113,7 @@ public class Main {
 
 		String inputCost = scanner.nextLine();
 		String validCost = dataValidation(inputCost);
-		// TODO storeCostData(validCost);
+		storeCostData(validCost);
 
 		System.out.println("To add another cost press A.");
 		System.out.println("To go back to start menu press M: ");
@@ -143,6 +149,32 @@ public class Main {
 		}
 
 		return data;
+	}
+
+	public static void storeRevenueData(String data) {
+
+		// Splitting the input in two separated storages for dates and values
+		int splitIndex = data.indexOf("$");
+		String date = data.substring(0, splitIndex);
+		revenueDateBuilder.append(date.trim() + " ");
+		String value = data.substring(splitIndex + 1);
+		revenueValueBuilder.append(value.trim() + " ");
+
+		revenueDates = revenueDateBuilder.toString().split(" ");
+		revenueValues = revenueValueBuilder.toString().split(" ");
+	}
+
+	public static void storeCostData(String data) {
+
+		// Splitting the input in two separated storages for dates and values
+		int splitIndex = data.indexOf("$");
+		String date = data.substring(0, splitIndex);
+		costDateBuilder.append(date.trim() + " ");
+		String value = data.substring(splitIndex + 1);
+		costValueBuilder.append(value.trim() + " ");
+
+		costDates = costDateBuilder.toString().split(" ");
+		costValues = costValueBuilder.toString().split(" ");
 	}
 
 }
