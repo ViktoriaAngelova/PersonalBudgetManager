@@ -1,5 +1,8 @@
 package main;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -66,7 +69,7 @@ public class Main {
 				newCost();
 				break;
 			case "b":
-				// TODO balance();
+				balance();
 				break;
 			case "q":
 				System.exit(0);
@@ -175,6 +178,61 @@ public class Main {
 
 		costDates = costDateBuilder.toString().split(" ");
 		costValues = costValueBuilder.toString().split(" ");
+	}
+
+	public static void balance() {
+
+		System.out.println("Set a period in days for the calculation: ");
+		String period = scanner.nextLine();
+
+		// Setting input format
+		String regex = "^[1-9]{1,3}$";
+		boolean isMatching = Pattern.matches(regex, period);
+
+		// Input validation
+		while (!isMatching) {
+			System.out.println("Invalid period! Please, set a period equal or greater then 1: ");
+			period = scanner.nextLine();
+			isMatching = Pattern.matches(regex, period);
+		}
+
+		// TODO Extracting revenue and cost data
+
+		System.out.println("To see another balance press B.");
+		System.out.println("To go back to start menu press M: ");
+
+		// Validating user input
+		do {
+			choice = scanner.nextLine().toLowerCase();
+			switch (choice) {
+			case "b":
+				balance();
+				break;
+			case "m":
+				startMenu();
+				break;
+			default:
+				System.out.println("Invalid choice! Please, press B or M, depending on your choice: ");
+			}
+		} while (choice != "b" || choice != "m");
+	}
+
+	public static String[] setTimeWindow(int period) {
+
+		// Setting the dates in ascending order for witch to see the balance
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, -period + 1);
+		String[] listOfDates = new String[period];
+
+		for (int i = 0; i < period; i++) {
+			date = calendar.getTime();
+			listOfDates[i] = formatter.format(date);
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+		}
+
+		return listOfDates;
 	}
 
 }
