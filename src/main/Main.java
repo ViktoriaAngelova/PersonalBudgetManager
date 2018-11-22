@@ -1,5 +1,7 @@
 package main;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +20,8 @@ public class Main {
 	public static String[] revenueValues;
 	public static String[] costDates;
 	public static String[] costValues;
+	public static BigDecimal revenueSum;
+	public static BigDecimal costSum;
 
 	public static void main(String[] args) {
 
@@ -196,7 +200,30 @@ public class Main {
 			isMatching = Pattern.matches(regex, period);
 		}
 
-		// TODO Extracting revenue and cost data
+		String[] listOfDates = setTimeWindow(Integer.parseInt(period));
+		String[] revenueData = extractRevenueData(listOfDates);
+		String[] costData = extractCostData(listOfDates);
+
+		System.out.println("------------------Balance for the last " + period + " days------------------");
+		System.out.printf("%-35s%s\n", "REVENUE:", "COST:\n");
+
+		// Print out revenue and cost data in two columns
+		for (int i = 0; i < revenueData.length; i++) {
+
+			if (revenueData[i] == null) {
+				revenueData[i] = "";
+			}
+			if (costData[i] == null) {
+				costData[i] = "";
+			}
+			System.out.printf("%-35s%s", revenueData[i], costData[i]);
+			System.out.println("");
+		}
+
+		DecimalFormat df = new DecimalFormat("#,###.00");
+
+		System.out.println("_______________________________________________________________");
+		System.out.printf("%s%-29s%s%s\n", "SUM = ", df.format(revenueSum), "SUM = ", df.format(costSum));
 
 		System.out.println("To see another balance press B.");
 		System.out.println("To go back to start menu press M: ");
@@ -233,6 +260,46 @@ public class Main {
 		}
 
 		return listOfDates;
+	}
+
+	public static String[] extractRevenueData(String[] listOfDates) {
+
+		// Extracting the needed revenue data for the chosen time window
+		String[] revenueData = new String[listOfDates.length];
+		revenueSum = new BigDecimal(0);
+		BigDecimal value;
+
+		for (int i = 0; i < listOfDates.length; i++) {
+			for (int j = 0; j < revenueDates.length; j++) {
+				if (listOfDates[i].equals(revenueDates[j])) {
+					revenueData[i] = revenueDates[j] + " $ " + revenueValues[j];
+					value = BigDecimal.valueOf(Double.parseDouble(revenueValues[j]));
+					revenueSum = revenueSum.add(value);
+				}
+			}
+		}
+
+		return revenueData;
+	}
+
+	public static String[] extractCostData(String[] listOfDates) {
+
+		// Extracting the needed cost data for the chosen time window
+		String[] costData = new String[listOfDates.length];
+		costSum = new BigDecimal(0);
+		BigDecimal value;
+
+		for (int i = 0; i < listOfDates.length; i++) {
+			for (int j = 0; j < costDates.length; j++) {
+				if (listOfDates[i].equals(costDates[j])) {
+					costData[i] = costDates[j] + " $ " + costValues[j];
+					value = BigDecimal.valueOf(Double.parseDouble(costValues[j]));
+					costSum = costSum.add(value);
+				}
+			}
+		}
+
+		return costData;
 	}
 
 }
